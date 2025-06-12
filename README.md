@@ -1,5 +1,5 @@
 # METAL
-A custom made interpreter in Java inspired by Robert Nystorm.
+A custom made interpreter in Java inspired by Robert Nystorm and The Dragon Book.
 
 # GUI of the interpreter
 
