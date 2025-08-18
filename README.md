@@ -1,5 +1,9 @@
 # METAL
-An AST walking interpreter made in Java. 
+An AST walking interpreter made in Java.   
+🧮🧮🧮🧮🧮  
+🧙🏻‍♀️🧙🏻‍♀️🧙🏻‍♀️🧙🏻‍♀️🧙🏻‍♀️  
+🔮🔮🔮🔮🔮  
+🪄🪄🪄🪄🪄  
 
 # Input
 
