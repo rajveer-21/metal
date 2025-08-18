@@ -26,6 +26,4 @@ Class declaration : class
 Control flow : if, else if, else  
 Return keyword : return  
 
-![1000128773](https://github.com/user-attachments/assets/7f0042ba-fb7c-4780-a6f9-08f48c47bee6)
-
 🧙‍♀️🪄🧙‍♀️ zullie was here! ⚔️⚔️⚔️ alva was here too!
