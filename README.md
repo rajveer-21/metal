@@ -7,7 +7,7 @@ An AST walking interpreter made in Java.
 
 # Structure of interpretation
 
-***<span style="color:red">SCANNER->PARSER->INTERPRETER***</span>, with general type checking, scope checking and error handling in between and during runtime.
+***<span style="color:red">SCANNER->PARSER->INTERPRETER</span>***, with general type checking, scope checking and error handling in between and during runtime.
 # Input
 
 Has the capability of taking either command line inputs through pre written txt files or through direct terminal inputs.
