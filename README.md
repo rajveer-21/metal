@@ -1,7 +1,7 @@
 # METAL
 An AST walking interpreter made in Java. 
 
-# Input to the interpreter
+# Input to METAL
 
 Has the capability of taking either command line inputs through pre written txt files or through direct terminal inputs.
 If the user inputs exactly one file, the file will be read for interpretation. No file being provided directly leads to terminal input. 
