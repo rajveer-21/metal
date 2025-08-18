@@ -7,9 +7,8 @@ An AST walking interpreter made in Java.
 
 # Structure of interpretation
 
-![Scanner](https://img.shields.io/badge/Scanner-red) →
-![Parser](https://img.shields.io/badge/Parser-green) →
-![Interpreter](https://img.shields.io/badge/Interpreter-blue), with general type checking, scope checking and error handling in between and during runtime.
+***Scanner->Parser->Interpreter***, with general type checking, scope checking and error handling in between and during runtime.  
+
 # Input
 
 Has the capability of taking either command line inputs through pre written txt files or through direct terminal inputs.
