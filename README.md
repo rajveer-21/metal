@@ -5,16 +5,11 @@ An AST walking interpreter made in Java.
 🔮🔮🔮🔮🔮  
 🪄🪄🪄🪄🪄  
 
-# Structure of interpretation
-
 ***Scanner->Parser->Interpreter***, with general type checking, scope checking and error handling in between and during runtime.  
 
-# Input
 
 Has the capability of taking either command line inputs through pre written txt files or through direct terminal inputs.
 If the user inputs exactly one file, the file will be read for interpretation. No file being provided directly leads to terminal input. 
-
-# Features
 
 ***Operators***
 
