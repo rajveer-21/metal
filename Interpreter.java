@@ -1,16 +1,58 @@
-class Interpreter implements Expr.Visitor<Object>
+import java.util.*;
+class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void>
 {
-    public void interpret(Expr expression)
+    private Environment environment = new Environment();
+    public void interpret(List<Stmt> statements)
     {
         try
         {
-            Object value = evaluate(expression);
-            System.out.println(stringify(value));
+            for(int i = 0; i < statements.size(); i++)
+            {
+                execute(statements.get(i));
+            }
         }
         catch(RuntimeError error)
         {
             Metal.runtimeError(error);
         }
+    }
+    
+    public void execute(Stmt statement)
+    {
+        statement.accept(this);
+    }
+    
+    public Void visitVarStmt(Stmt.Var stmt)
+    {
+        Object value = null;
+        if(stmt.initializer != null)
+        value = evaluate(stmt.initializer);
+        environment.define(stmt.name.lexeme, value);
+        return null;
+    }
+    
+    public Object visitVariableExpr(Expr.Variable expr)
+    {
+        return environment.get(expr.name);
+    }
+    
+    public Object visitAssignExpr(Expr.Assign expr)
+    {
+        Object value = evaluate(expr.value);
+        environment.assign(expr.name, value);
+        return value;
+    }
+    public Void visitExpressionStmt(Stmt.Expression stmt)
+    {
+        evaluate(stmt.expression);
+        return null;
+    }
+    
+    public Void visitPrintStmt(Stmt.Print stmt)
+    {
+        Object value = evaluate(stmt.expression);
+        System.out.println(stringify(value));
+        return null;
     }
     
     public Object visitLiteralExpr(Expr.Literal expr)
@@ -108,7 +150,7 @@ class Interpreter implements Expr.Visitor<Object>
     public boolean isEqual(Object a, Object b)
     {
         if(a == null && b == null)return true;
-        if(a == null)return true;
+        if(a == null)return false;
         return a.equals(b);
     }
     
