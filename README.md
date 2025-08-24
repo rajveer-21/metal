@@ -17,7 +17,7 @@ Standard assignment operator : =
 ***Keywords***
 
 Function declaration : fun  
-Variable declaration : var 
+Variable declaration : var   
 Control flow : if, else if, else  
 Return keyword : return  
 
