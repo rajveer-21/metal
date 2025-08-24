@@ -1,5 +1,5 @@
 # ***metal***
-An AST walking interpreter made in Java.   
+An interpreter made in Java for a procedural language with support for variables, functions, user input, loops, control flow and a large assortment of operators.   
 🧮🧮🧮🧮🧮  
 🧙🏻‍♀️🧙🏻‍♀️🧙🏻‍♀️🧙🏻‍♀️🧙🏻‍♀️  
 🔮🔮🔮🔮🔮  
@@ -17,8 +17,7 @@ Standard assignment operator : =
 ***Keywords***
 
 Function declaration : fun  
-Variable declaration : var  
-Class declaration : class  
+Variable declaration : var 
 Control flow : if, else if, else  
 Return keyword : return  
 
