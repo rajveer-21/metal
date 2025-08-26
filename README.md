@@ -1,5 +1,6 @@
 # ***metal***
-A procedural language interpreter made in Java with support for variables, functions, user input, loops, control flow and a collection of operators.   
+A procedural language interpreter made in Java with support for variables, functions, user input, loops, control flow and a collection of operators. 
+First language implementation from my set of implementations.
 🧮🧮🧮🧮🧮  
 🧙🏻‍♀️🧙🏻‍♀️🧙🏻‍♀️🧙🏻‍♀️🧙🏻‍♀️  
 🔮🔮🔮🔮🔮  
