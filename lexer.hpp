@@ -4,14 +4,18 @@
 #include <string>
 #include <vector>
 #include <cctype>
+#include <memory>
 #include <iostream>
+#include <stdexcept>
 #include <unordered_map>
 
 enum TokenType
 {
     LEFT_PAREN, RIGHT_PAREN,
     LEFT_BRACE, RIGHT_BRACE,
-    EQUAL_EQUAL, NOT_EQUAL, GREATER_EQUALS, LESSER_EQUALS, GREATER, LESSER,
+    EQUAL_EQUAL, NOT_EQUAL, 
+    GREATER_EQUALS, LESSER_EQUALS, 
+    GREATER, LESSER,
     ADD, MUL, SUB, DIV,
     AND, OR, NOT,
     DOT, COMMA, SEMICOLON,
@@ -20,6 +24,8 @@ enum TokenType
     NUMBER, IDENTIFIER, STRING,
     FOR, WHILE,
     TRUE, FALSE,
+    PRINT,
+    RETURN, IF, ELSE,
     NIL, EOF_TOKEN,
 };
 struct Token
