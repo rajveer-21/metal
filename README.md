@@ -13,5 +13,3 @@ operators:
 math : + - / *  
 logic : >= <= > < == ! !=  
  
-
-🧙‍♀️🪄🧙‍♀️ zullie was here! ⚔️⚔️⚔️ alva was here too!
