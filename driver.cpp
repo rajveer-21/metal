@@ -11,14 +11,23 @@
 bool hadError = false;
 void run(const std::string& source)
 {
+    hadError = false; 
+
     scanner scanner1(source);
-    std::vector<std::shared_ptr<Token>> tokens = scanner1.scan_tokens();
-    parser parser1(tokens);
-    std::vector<std::shared_ptr<Stmt>> statements = parser1.parse();
-    if(hadError == true)
-    return;
-    interpreter interpreter1;
-    interpreter1.interpret(statements);
+    try 
+    {
+        std::vector<std::shared_ptr<Token>> tokens = scanner1.scan_tokens();
+        parser parser1(tokens);
+        std::vector<std::shared_ptr<Stmt>> statements = parser1.parse();
+        if(hadError) return;
+        static interpreter interpreter1; 
+        interpreter1.interpret(statements);
+    } 
+    catch (const std::exception& e) 
+    {
+        std::cerr << e.what() << std::endl;
+        hadError = true;
+    }
 }
 
 void run_file(const std::string& source)

@@ -5,7 +5,9 @@ struct Environment;
 void metal_runtime_error(const RuntimeError& error);
 struct interpreter : public ExprVisitor, public StmtVisitor
 {
-    Environment environment;
+    std::shared_ptr<Environment> environment;
+    interpreter(): 
+    environment(std::make_shared<Environment>()) {}
     void interpret(std::vector<std::shared_ptr<Stmt>> statements) 
     {
         try 
@@ -22,6 +24,7 @@ struct interpreter : public ExprVisitor, public StmtVisitor
     }
     void execute(std::shared_ptr<Stmt> stmt)
     {
+        if (stmt == nullptr) return;
         stmt->accept(*this);
     }
     std::string stringify(const std::any& value)
@@ -31,8 +34,14 @@ struct interpreter : public ExprVisitor, public StmtVisitor
         if(value.type() == typeid(double))
         {
             std::string text = std::to_string(std::any_cast<double>(value));
-            if(text.size() > 2 && text.substr(text.size() - 2) == ".0")
-            text.erase(text.size() - 2);
+            if(text.size() > 2)
+            {
+                int dot_pos = text.find('.');
+                std::string fraction = text.substr(dot_pos + 1);
+                double num = std::stod(fraction);
+                if(num == 0)
+                text = text.substr(0, dot_pos);
+            }
             return text;
         }
         if(value.type() == typeid(bool))
@@ -116,20 +125,43 @@ struct interpreter : public ExprVisitor, public StmtVisitor
     {
         return evaluate(expr.expression);
     }
+    std::any visitLogicalExpr(const Logical& expr)
+    {
+        std::any value = evaluate(expr.left);
+        if(expr.op->type == TokenType::OR)
+        {
+            if(isTrue(value)) return value;
+        }
+        else if(expr.op->type == TokenType::AND)
+        {
+            if(!isTrue(value)) return value;
+        }
+        return evaluate(expr.right);
+    }
     std::any visitVariableExpr(const Variable& expr)
     {
-        return environment.get(expr.token);
+        return environment->get(expr.token);
     }
     std::any visitAssignExpr(const Assign& expr)
     {
         std::any value = evaluate(expr.expression);
-        environment.assign(expr.token, value);
+        environment->assign(expr.token, value);
         return value;
     }
     void visitExpressionStmt(const Expression& stmt)
     {
         evaluate(stmt.expression);
         return;
+    }
+    void visitIfStmt(const If& stmt) 
+    {
+        if(isTrue(evaluate(stmt.condition)))
+        execute(stmt.thenBranch);
+        else 
+        {
+            if(stmt.elseBranch != nullptr)
+            execute(stmt.elseBranch);
+        }
     }
     void visitVarStmt(const Var& stmt)
     {
@@ -138,7 +170,7 @@ struct interpreter : public ExprVisitor, public StmtVisitor
         {
             value = evaluate(stmt.expression);
         }
-        environment.define(stmt.token->lexeme, value);
+        environment->define(stmt.token->lexeme, value);
         return;
     }
     void visitPrintStmt(const Print& stmt)
@@ -146,6 +178,36 @@ struct interpreter : public ExprVisitor, public StmtVisitor
         std::any value = evaluate(stmt.printExpression);
         std::cout << stringify(value) << std::endl;
         return;
+    }
+    void visitBlockStmt(const Block& stmt)
+    {
+        std::shared_ptr<Environment> new_environment = 
+        std::make_shared<Environment>(this->environment);
+        executeBlock(stmt.statements, new_environment);
+        return;
+    }
+    void visitWhileStmt(const While& stmt)
+    {
+        while(isTrue(evaluate(stmt.condition)) == true)
+        {
+            execute(stmt.body);
+        }
+    }
+    void executeBlock(std::vector<std::shared_ptr<Stmt>> statements, std::shared_ptr<Environment> environment)
+    {
+        std::shared_ptr<Environment> previous = this->environment;
+        this->environment = environment;
+        try 
+        {
+            for(int i = 0; i < statements.size(); i++)
+            execute(statements[i]);
+        }
+        catch(const RuntimeError& error)
+        {
+            this->environment = previous;
+            throw;
+        }
+        this->environment = previous;
     }
     std::any evaluate(std::shared_ptr<Expr> expr)
     {

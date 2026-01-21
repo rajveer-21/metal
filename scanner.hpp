@@ -13,6 +13,7 @@ enum TokenType
 {
     LEFT_PAREN, RIGHT_PAREN,
     LEFT_BRACE, RIGHT_BRACE,
+    BRACKET_ST, BRACKET_END,
     COMMA, DOT, SUB, ADD, SEMICOLON, DIV, MUL,
     NOT,  NOT_EQUAL,
     EQUAL, EQUAL_EQUAL,
@@ -61,7 +62,7 @@ class scanner
         return true;
         return false;
     }
-    void add_token(TokenType type, std::any literal = std::any{})
+    void add_token(TokenType type, std::any literal = std::any{}) /*make the passing of a parameter optional maybe?!*/
     {
         std::string text = source.substr(start, current - start);
         tokens.emplace_back(std::make_shared<Token>(text, literal, type, line));
@@ -103,8 +104,10 @@ class scanner
         {
             case '(': add_token(TokenType::LEFT_PAREN); break;
             case '{': add_token(TokenType::LEFT_BRACE); break;
+            case '[': add_token(TokenType::BRACKET_ST); break;
             case ')': add_token(TokenType::RIGHT_PAREN); break;
             case '}': add_token(TokenType::RIGHT_BRACE); break;
+            case ']': add_token(TokenType::BRACKET_END); break;
             case ',': add_token(TokenType::COMMA); break;
             case '.': add_token(TokenType::DOT); break;
             case '-': add_token(TokenType::SUB); break;
@@ -175,7 +178,8 @@ class scanner
         advance();
         std::string text = source.substr(start, current - start);
         TokenType type = TokenType::IDENTIFIER;
-        if (keywords.find(text) != keywords.end()) type = keywords[text];
+        if (keywords.find(text) != keywords.end()) 
+        type = keywords[text];
         add_token(type);
     }
 };
